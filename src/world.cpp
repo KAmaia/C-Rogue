@@ -20,6 +20,9 @@ void world::initTiles(){
 	tileMap.resize(width * height);
 }
 
+void world::setTile(int y, int x, tile t){
+	tileMap[y * width + x] = t;
+}
 tile world::getTile(int y, int x){
 	return tileMap[y * width + x];
 }

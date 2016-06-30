@@ -3,6 +3,7 @@
 
 #include "../include/world.h"
 #include "../include/tileloader.h"
+#include "../include/worldgen.h"
 
 //methods.
 void initialize();
@@ -16,13 +17,14 @@ bool paused = true;
 int ticks = 0;
 int ROWS, COLS;
 world gameWorld;
+worldgen wGen;
 
 tileLoader tl;
 
 int main(){
 	initialize();
 	//gameloop
-	gameWorld = world(3,3);
+	wGen = worldgen();
 	while(running == true){
 		if(paused){
 			//menu logic

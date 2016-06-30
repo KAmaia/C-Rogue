@@ -11,7 +11,9 @@ class world{
 		world();
 		world(int, int);
 		
+		void setTile(int, int, tile);
 		tile getTile(int, int);
+		
 		int getWidth();
 		int getHeight();
 		
