@@ -34,4 +34,3 @@ int world::getWidth(){
 int world::getHeight(){
 	return height;
 }
-

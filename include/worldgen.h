@@ -9,8 +9,13 @@
 class worldgen{
 	public:
 		worldgen();
-		void generateworld(int, int);
-	
+		worldgen(int, int);
+		world generateworld();
+		void initialize();
+		
+		int getWorldHeight();
+		int getWorldWidth();
+
 	private:
 		int wHeight;
 		int wWidth;

@@ -9,6 +9,7 @@
 void initialize();
 void handleInput(int);
 void updateDisplay();
+void drawWorld();
 void exit();
 
 //vars
@@ -24,7 +25,6 @@ tileLoader tl;
 int main(){
 	initialize();
 	//gameloop
-	wGen = worldgen();
 	while(running == true){
 		if(paused){
 			//menu logic
@@ -55,7 +55,6 @@ void handleInput(int keyCode){
 	}
 }		
 
-
 void initialize(){
 	initscr();
 	getmaxyx(stdscr, ROWS, COLS);
@@ -63,14 +62,32 @@ void initialize(){
 	nodelay(stdscr, true);
 	noecho();
 	keypad(stdscr, TRUE);
+	wGen = worldgen();
+	gameWorld = wGen.generateworld();
 	running = true;
 }
 
 void updateDisplay(){
 	int brrrt = ROWS - 1;
+	drawWorld();
 	mvprintw(1, 0, "%i, %i", ROWS, COLS);
 	mvprintw(brrrt, 0,"%i", ticks); 
 	refresh();
+}
+
+void drawWorld(){
+	/*
+	 *
+	 * This method is totally wrong.  World is currently set to
+	 * be generated 10x10 tiles, so, for right now, we can see if 
+	 * we're drawing to the screen.  
+	 *
+	 */
+	for(int y = 0; y < gameWorld.getWidth(); y++ ){
+		for(int x = 0; x < gameWorld.getHeight(); x++){
+			mvaddch( y, x, gameWorld.getTile(y, x).getChar()); 
+		}
+	}
 }
 
 void exit(){

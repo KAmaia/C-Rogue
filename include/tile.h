@@ -3,6 +3,11 @@
 
 class tile{
 	public:
+		tile();
+		tile(char);
+		char getChar();
+		void setChar(char);
 	private:
+		char tileChar;
 };
 #endif

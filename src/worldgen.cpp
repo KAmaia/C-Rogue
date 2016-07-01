@@ -4,12 +4,37 @@
 #include "../include/world.h"
 #include "../include/tile.h"
 
-void worldgen::generateworld(int height, int width){
-	wWidth = width;
-	wHeight = height;
+worldgen::worldgen(){
+	wWidth = 10;
+	wHeight = 10;
+	initialize();
 }
 
-void initialize(){
+worldgen::worldgen(int height, int width){
+//not-so default ctor
+	wWidth = width;
+	wHeight = height;
+	initialize();
+}
+
+world worldgen::generateworld(){
+	//this is where the world is going to be generated. I hope.	
+	for(int y = 0; y < wWidth; y++){
+		for(int x = 0; x < wHeight; x++){
+			gameWorld.setTile(y, x, tile('#'));
+		}
+	}
+}
+
+void worldgen::initialize(){
+	//set up anything that needs to be set up prior to generation.
 	gameWorld = world(wWidth, wHeight);
-	gameWorld.init();
+}
+
+int worldgen::getWorldHeight(){
+	return wHeight;
+}
+
+int worldgen::getWorldWidth(){
+	return wWidth;
 }
