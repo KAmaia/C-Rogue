@@ -24,8 +24,7 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 	if (startX < 0){
 		startX = 0;
 	}
-	//If the Renderable Area is Bigger than the world,
-	//Center the world.
+	//then if the visible area is larger than the world, make sure we stay in bounds.
 	int endY = startY + screenHeight;
 	int endX = startX + screenWidth;
 
@@ -35,28 +34,14 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 	if(endX >= incWorld.getWidth()){
 		endX = incWorld.getWidth() - 1;
 	} 
-		
-	//but what if the world is bigger than the renderable area?!
-	//I am pretty sure that this is what's causing my crash!
-	int offsetY;
-	int offsetX;	
-	if(incWorld.getHeight() <= screenHeight){
-		offsetY = screenHeight / 2 - incWorld.getHeight() / 2;
-	}
-	else{
-		offsetY = screenHeight / 2;	
-	}
-	if(incWorld.getWidth() <= screenWidth){	
-		offsetX = screenWidth / 2 - incWorld.getWidth() / 2;
-	}
-	else{
-		offsetX = screenWidth / 2;
-	}	
+	
 	//finally create the rendered frame.
 	renderedFrame.resize(screenHeight*screenWidth);
-	for(int y = startY; y < endY; y++){
-		for(int x = startX; x < endX; x++){
-			renderedFrame[(( offsetY + (y * screenWidth) + x + offsetX)) ] = incWorld.getTile(y,x).getChar();	
+	for(int y = startY; y <= endY; y++){
+		int offsetY = (y + screenHeight / 2) - (incWorld.getHeight() / 2);
+		for(int x = startX; x <= endX; x++){
+			int offsetX = x + (screenWidth  /2 - incWorld.getWidth() / 2);
+			renderedFrame[((offsetY * screenWidth) + offsetX) ] = incWorld.getTile(y,x).getChar();	
 		}
 	}
 	return renderedFrame;

@@ -27,7 +27,7 @@ tileLoader tl;
 
 int main(){
 	initialize();
-	gameWorld.setTile(10,3,'.');
+	gameWorld.setTile(3,3,'.');
 	//gameloop
 	while(running == true){
 		if(paused){
@@ -70,7 +70,7 @@ void initialize(){
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(ROWS - 10 , COLS - 10);
+	wGen = worldgen(10 ,10);
 	gameWorld = wGen.generateworld();
 	running = true;
 }
@@ -79,13 +79,13 @@ void updateDisplay(){
 	//get a rendered frame;
 	std::vector<char>render = rndr.renderFrame(ROWS, COLS, gameWorld);
 	drawWorld(render);
-	mvprintw(ROWS - 1, 0,"%i", ticks); 
+	mvprintw(ROWS, 0,"%i", ticks); 
 	refresh();
 }
 
 void drawWorld(std::vector<char> render){
-	for(int y = 0; y < ROWS - 1; y++){
-		for(int x = 0; x < COLS - 1; x++){
+	for(int y = 0; y < ROWS; y++){
+		for(int x = 0; x < COLS; x++){
 			mvaddch(y,x,render[y*COLS + x]);
 		}
 	}
