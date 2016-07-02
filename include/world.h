@@ -10,7 +10,7 @@ class world{
 	public:
 		world();
 		world(int, int);
-		
+		void setTile(int, int, char);	
 		void setTile(int, int, tile);
 		tile getTile(int, int);
 		

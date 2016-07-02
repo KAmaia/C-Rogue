@@ -24,6 +24,7 @@ tileLoader tl;
 
 int main(){
 	initialize();
+	gameWorld.setTile(10,3,'.');
 	//gameloop
 	while(running == true){
 		if(paused){
@@ -62,16 +63,16 @@ void initialize(){
 	nodelay(stdscr, true);
 	noecho();
 	keypad(stdscr, TRUE);
-	wGen = worldgen();
+	wGen = worldgen(15, 15);
 	gameWorld = wGen.generateworld();
 	running = true;
 }
 
 void updateDisplay(){
 	int brrrt = ROWS - 1;
-	drawWorld();
-	mvprintw(1, 0, "%i, %i", ROWS, COLS);
+	mvprintw(1, 0, "%i, %i", COLS, ROWS);
 	mvprintw(brrrt, 0,"%i", ticks); 
+	drawWorld();
 	refresh();
 }
 
@@ -83,8 +84,8 @@ void drawWorld(){
 	 * we're drawing to the screen.  
 	 *
 	 */
-	for(int y = 0; y < gameWorld.getWidth(); y++ ){
-		for(int x = 0; x < gameWorld.getHeight(); x++){
+	for(int y = 0; y < gameWorld.getHeight(); y++ ){
+		for(int x = 0; x < gameWorld.getWidth(); x++){
 			mvaddch( y, x, gameWorld.getTile(y, x).getChar()); 
 		}
 	}

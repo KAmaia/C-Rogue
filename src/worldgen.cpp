@@ -24,6 +24,7 @@ world worldgen::generateworld(){
 			gameWorld.setTile(y, x, tile('#'));
 		}
 	}
+	return gameWorld;
 }
 
 void worldgen::initialize(){
