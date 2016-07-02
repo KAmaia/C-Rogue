@@ -1,6 +1,7 @@
 language: cpp
 
 before_install:
+ - mkdir bin
  - sudo apt-get -qq update
  - sudo apt-get install -y libncurses5 
 script: make clean && make
