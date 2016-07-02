@@ -36,7 +36,7 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 	} 
 	
 	//finally create the rendered frame.
-	renderedFrame.reseize(screenHeight*screenWidth);
+	renderedFrame.resize(screenHeight*screenWidth);
 	for(int y = startY; y <= endY; y++){
 		for(int x = startX; x <= endX; x++){
 		
