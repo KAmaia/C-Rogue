@@ -70,7 +70,7 @@ void initialize(){
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(ROWS+ 5 , COLS - 5);
+	wGen = worldgen(ROWS - 10 , COLS - 10);
 	gameWorld = wGen.generateworld();
 	running = true;
 }
