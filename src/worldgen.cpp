@@ -10,7 +10,7 @@ worldgen::worldgen(){
 	initialize();
 }
 
-worldgen::worldgen(int height, int width){
+worldgen::worldgen(int height, int width ){
 //not-so default ctor
 	wWidth = width;
 	wHeight = height;
@@ -19,8 +19,8 @@ worldgen::worldgen(int height, int width){
 
 world worldgen::generateworld(){
 	//this is where the world is going to be generated. I hope.	
-	for(int y = 0; y < wWidth; y++){
-		for(int x = 0; x < wHeight; x++){
+	for(int y = 0; y < wHeight; y++){
+		for(int x = 0; x < wWidth; x++){
 			gameWorld.setTile(y, x, tile('#'));
 		}
 	}
@@ -29,7 +29,7 @@ world worldgen::generateworld(){
 
 void worldgen::initialize(){
 	//set up anything that needs to be set up prior to generation.
-	gameWorld = world(wWidth, wHeight);
+	gameWorld = world(wHeight, wWidth);
 }
 
 int worldgen::getWorldHeight(){

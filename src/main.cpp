@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <ncurses.h>
+#include <vector>
 
 #include "../include/world.h"
 #include "../include/tileloader.h"
 #include "../include/worldgen.h"
+#include "../include/renderer.h"
 
 //methods.
 void initialize();
 void handleInput(int);
 void updateDisplay();
-void drawWorld();
+void drawWorld(std::vector<char>);
 void exit();
 
 //vars
@@ -17,6 +19,7 @@ bool running = false;
 bool paused = true;
 int ticks = 0;
 int ROWS, COLS;
+renderer rndr;
 world gameWorld;
 worldgen wGen;
 
@@ -59,34 +62,31 @@ void handleInput(int keyCode){
 void initialize(){
 	initscr();
 	getmaxyx(stdscr, ROWS, COLS);
+	//pre-adjust these
+	ROWS -=1;
+	COLS -=1;
 	raw();
 	nodelay(stdscr, true);
 	noecho();
 	keypad(stdscr, TRUE);
-	wGen = worldgen(15, 15);
+	rndr = renderer();
+	wGen = worldgen(ROWS+ 5 , COLS - 5);
 	gameWorld = wGen.generateworld();
 	running = true;
 }
 
 void updateDisplay(){
-	int brrrt = ROWS - 1;
-	mvprintw(1, 0, "%i, %i", COLS, ROWS);
-	mvprintw(brrrt, 0,"%i", ticks); 
-	drawWorld();
+	//get a rendered frame;
+	std::vector<char>render = rndr.renderFrame(ROWS, COLS, gameWorld);
+	drawWorld(render);
+	mvprintw(ROWS - 1, 0,"%i", ticks); 
 	refresh();
 }
 
-void drawWorld(){
-	/*
-	 *
-	 * This method is totally wrong.  World is currently set to
-	 * be generated 10x10 tiles, so, for right now, we can see if 
-	 * we're drawing to the screen.  
-	 *
-	 */
-	for(int y = 0; y < gameWorld.getHeight(); y++ ){
-		for(int x = 0; x < gameWorld.getWidth(); x++){
-			mvaddch( y, x, gameWorld.getTile(y, x).getChar()); 
+void drawWorld(std::vector<char> render){
+	for(int y = 0; y < ROWS - 1; y++){
+		for(int x = 0; x < COLS - 1; x++){
+			mvaddch(y,x,render[y*COLS + x]);
 		}
 	}
 }

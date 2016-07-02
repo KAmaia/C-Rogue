@@ -25,24 +25,25 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 		startX = 0;
 	}
 	//then if the visible area is larger than the world, make sure we stay in bounds.
-	int endY = firstTileY + screenHeight;
-	int endX = firstTileX + screenWidth;
+	int endY = startY + screenHeight;
+	int endX = startX + screenWidth;
 
 	if(endY >= incWorld.getHeight()){
 		endY = incWorld.getHeight() -1;
 	}
 	if(endX >= incWorld.getWidth()){
-		endX = incWorld.getWidth() -1;
+		endX = incWorld.getWidth() - 1;
 	} 
 	
 	//finally create the rendered frame.
 	renderedFrame.resize(screenHeight*screenWidth);
 	for(int y = startY; y <= endY; y++){
+		int offsetY = (y + screenHeight / 2) - (incWorld.getHeight() / 2);
 		for(int x = startX; x <= endX; x++){
-		
+			int offsetX = x + (screenWidth  /2 - incWorld.getWidth() / 2);
+			renderedFrame[((offsetY * screenWidth) + offsetX) ] = incWorld.getTile(y,x).getChar();	
 		}
 	}
-	
 	return renderedFrame;
 }
 

@@ -10,7 +10,7 @@ world::world(){
 	height = 0;
 }
 
-world::world(int width, int height){
+world::world(int height, int width){
 	this->width = width;
 	this->height = height;
 	initTiles();
