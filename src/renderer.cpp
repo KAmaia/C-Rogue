@@ -29,11 +29,11 @@ std::vector<char> renderer::renderFrame(world incWorld){
 	int firstTileY = renderCenterY + offSetY;
 	int firstTileX = renderCenterX + offSetX;
 	//make sure the first tile is within bounds.
-	if(firstTileY <= 0){
+	if(firstTileY < 0){
 		firstTileY = 0;
 		renderCenterY = renderCenterY;
 	}
-	if(firstTileX <= 0){
+	if(firstTileX < 0){
 		firstTileX = 0;
 		renderCenterX = renderCenterX;
 	}
@@ -45,18 +45,18 @@ std::vector<char> renderer::renderFrame(world incWorld){
 	int lastTileX = firstTileX + sWidth;
 	
 	//make sure that the last tile stays within bounds.
-	if(lastTileY >= wHeight){
-		lastTileY = lastTileY;
+	if(lastTileY > wHeight){
+		lastTileY = lastTileY - 1;
 		renderCenterY = renderCenterY;
 	}
-	if(lastTileX >= wWidth){
-		lastTileX = lastTileX;
+	if(lastTileX > wWidth){
+		lastTileX = lastTileX - 1;
 		renderCenterX = renderCenterX;
 	}
 	
-	renderedFrame.resize(sHeight*sWidth);
-	for(int y = firstTileY; y < lastTileY; y++){
-		for(int x = firstTileX; x < lastTileX; x++){
+	renderedFrame.resize(sHeight * sWidth);
+	for(int y = firstTileY; y <= lastTileY; y++){
+		for(int x = firstTileX; x <= lastTileX; x++){
 			renderedFrame[y * wWidth + x] = incWorld.getTile(y,x).getChar();
 		}
 	}
