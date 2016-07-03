@@ -53,6 +53,18 @@ void handleInput(int keyCode){
 		case 27:
 			running = false;
 			break;
+		case KEY_DOWN:
+			rndr.moveCenterDown();
+			break;
+		case KEY_UP:
+			rndr.moveCenterUp();
+			break;
+		case KEY_LEFT:
+			rndr.moveCenterLeft();
+			break;
+		case KEY_RIGHT:
+			rndr.moveCenterRight();
+			break;
 		default:
 			//do nothing;
 			break;	
@@ -66,18 +78,19 @@ void initialize(){
 	ROWS -=1;
 	COLS -=1;
 	raw();
-	nodelay(stdscr, true);
+	nodelay(stdscr, TRUE);
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(10, 10);
+	wGen = worldgen(200,200);
 	gameWorld = wGen.generateworld();
+	rndr.init(ROWS, COLS, gameWorld);
 	running = true;
 }
 
 void updateDisplay(){
 	//get a rendered frame;
-	std::vector<char>render = rndr.renderFrame(ROWS, COLS, gameWorld);
+	std::vector<char>render = rndr.renderFrame(gameWorld);
 	drawWorld(render);
 	mvprintw(ROWS, 0,"%i", ticks); 
 	refresh();
