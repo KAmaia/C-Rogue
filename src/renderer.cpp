@@ -55,8 +55,8 @@ std::vector<char> renderer::renderFrame(world incWorld){
 	}
 	
 	renderedFrame.resize(sHeight * sWidth);
-	for(int y = firstTileY; y <= lastTileY; y++){
-		for(int x = firstTileX; x <= lastTileX; x++){
+	for(int y = firstTileY; y < lastTileY; y++){
+		for(int x = firstTileX; x <lastTileX; x++){
 			renderedFrame[y * wWidth + x] = incWorld.getTile(y,x).getChar();
 		}
 	}
