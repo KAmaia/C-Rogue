@@ -3,7 +3,9 @@
 #include "../include/world.h"
 #include "../include/tile.h"
 
-using namespace std;
+
+
+using std::vector;
 
 world::world(){
 	width = 0;
@@ -17,18 +19,25 @@ world::world(int height, int width){
 }
 
 void world::initTiles(){
-	tileMap.resize(width * height);
+	tileMap.resize(height);
+	for(int i = 0; i < height; ++i){
+		tileMap[i].resize(width);
+	}
 }
 
+/* This Method will go away
+ * Eventually.
+*/
+
 void world::setTile(int y, int x, char c){
-	tileMap[y * width + x].setChar(c);
+	tileMap[y][x].setChar(c);
 }
 
 void world::setTile(int y, int x, tile t){
-	tileMap[y * width + x] = t;
+	tileMap[y][x] = t;
 }
 tile world::getTile(int y, int x){
-	return tileMap[y * width + x];
+	return tileMap[y][x];
 }
 
 int world::getWidth(){

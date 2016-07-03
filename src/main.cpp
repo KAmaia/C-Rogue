@@ -7,11 +7,13 @@
 #include "../include/worldgen.h"
 #include "../include/renderer.h"
 
+using std::vector;
+
 //methods.
 void initialize();
 void handleInput(int);
 void updateDisplay();
-void drawWorld(std::vector<char>);
+void drawWorld(vector<vector<char> >);
 void exit();
 
 //vars
@@ -27,7 +29,7 @@ tileLoader tl;
 
 int main(){
 	initialize();
-	gameWorld.setTile(3,3,'.');
+	gameWorld.setTile(ROWS, 0, '-');
 	//gameloop
 	while(running == true){
 		if(paused){
@@ -82,7 +84,7 @@ void initialize(){
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(200,200);
+	wGen = worldgen(80,100);
 	gameWorld = wGen.generateworld();
 	rndr.init(ROWS, COLS, gameWorld);
 	running = true;
@@ -90,16 +92,16 @@ void initialize(){
 
 void updateDisplay(){
 	//get a rendered frame;
-	std::vector<char>render = rndr.renderFrame(gameWorld);
+	vector<vector<char> >render = rndr.renderFrame(gameWorld);
 	drawWorld(render);
 	mvprintw(ROWS, 0,"%i", ticks); 
 	refresh();
 }
 
-void drawWorld(std::vector<char> render){
+void drawWorld(vector<vector<char> > render){
 	for(int y = 0; y < ROWS; y++){
 		for(int x = 0; x < COLS; x++){
-			mvaddch(y,x,render[y*COLS + x]);
+			mvaddch(y,x,render[y][x]);
 		}
 	}
 }

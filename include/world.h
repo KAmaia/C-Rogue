@@ -21,7 +21,7 @@ class world{
 
 	private:
 		void initTiles();
-		std::vector<tile> tileMap;
+		std::vector<std::vector<tile> > tileMap;
 		int width;
 		int height;
 };
