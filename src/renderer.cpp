@@ -24,14 +24,17 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 	if (startX < 0){
 		startX = 0;
 	}
-	//then if the visible area is larger than the world, make sure we stay in bounds.
+	
+	//if the world is larger than the visible area, trim it.
+	
+	
 	int endY = startY + screenHeight;
 	int endX = startX + screenWidth;
 
-	if(endY >= incWorld.getHeight()){
+	if(endY > incWorld.getHeight()){
 		endY = incWorld.getHeight() -1;
 	}
-	if(endX >= incWorld.getWidth()){
+	if(endX > incWorld.getWidth()){
 		endX = incWorld.getWidth() - 1;
 	} 
 	
@@ -47,10 +50,18 @@ std::vector<char> renderer::renderFrame(int sizeY, int sizeX, world incWorld){
 	return renderedFrame;
 }
 
+
 void renderer::setCenter(int wWidth, int wHeight){
-	renderCenterY = std::min(renderCenterY, 0);
-	renderCenterY = std::max(renderCenterY, screenHeight - wHeight);
+	// screen height = 25, wHeight = 10
+	// yDiff = 15;	
+	int yDiff = screenHeight / 2 - wHeight / 2;
 	
+	//renderCenterY = 0;
+	renderCenterY = std::min(renderCenterY, 0);
+	//RCY = 0;		
+	renderCenterY = std::max(renderCenterY, yDiff);
+	
+	int xDiff = screenWidth /2 - wWidth / 2;
 	renderCenterX = std::min(renderCenterX, 0);
-	renderCenterX = std::max(renderCenterX, screenWidth - wWidth);
+	renderCenterX = std::max(renderCenterX, xDiff);
 }
