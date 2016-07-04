@@ -90,19 +90,23 @@ void initialize(){
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(10, 10);
+	wGen = worldgen(80, 100);
 	gameWorld = wGen.generateworld();
 	rndr.init(ROWS, COLS, gameWorld);
 	running = true;
 }
 
 void updateDisplay(){
+	//clear the screen	
 	clear();
 	//get a rendered frame;
 	vector<vector<char> >render = rndr.renderFrame(gameWorld);
-	drawWorld(render);if(debug){
+	drawWorld(render);
+	//if debug mode is on, show debug info at bottom of screen.	
+	if(debug){
 		drawDebugInfo();
 	}
+	//and repaint.
 	refresh();
 	
 }

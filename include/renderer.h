@@ -25,9 +25,10 @@ class renderer{
 		int renderCenterX, renderCenterY;
 		int sHeight, sWidth;
 		int wHeight, wWidth;
-
+		int offSetY, offSetX;		
+	
 		void initializeFrame(std::vector<std::vector<char> >&);
-		void calculateOffSets(int&, int&);
+		void calculateOffSets();
 		void checkFirsts(int&, int&);
 		void checkLasts(int&, int&);
 		void setRenderCenter();
