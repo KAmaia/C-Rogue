@@ -91,7 +91,7 @@ void initialize(){
 	keypad(stdscr, TRUE);
 	curs_set(0);	
 	rndr = renderer();
-	wGen = worldgen(80, 100);
+	wGen = worldgen(10, 100);
 	gameWorld = wGen.generateworld();
 	rndr.init(ROWS, COLS, gameWorld);
 	running = true;

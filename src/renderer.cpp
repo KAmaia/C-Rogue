@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <stdio.h>
 
 #include "../include/renderer.h"
 #include "../include/world.h"
@@ -42,8 +43,8 @@ vector<vector<char> > renderer::renderFrame(world incWorld){
 	//make sure that the last tile stays within bounds.
 	checkLasts( lastTileY, lastTileX );
 	
-	for(int y = firstTileY; y < lastTileY -1; y++){
-		for(int x = firstTileX; x < lastTileX -1; x++){
+	for(int y = firstTileY; y < lastTileY; y++){
+		for(int x = firstTileX; x < lastTileX; x++){
 			char c = incWorld.getTile(y,x).getChar();
 			renderedFrame[y + offSetY][x + offSetX] = c;		
 		}
@@ -71,8 +72,8 @@ void renderer::setWorldCenter(){
 
 //check first and last
 void renderer::checkFirsts(int &firstY, int &firstX){
-	firstY = firstY < 0 ? 0 : firstY;
-	firstX = firstX < 0 ? 0 : firstX;
+	firstY = firstY <= 0 ? 0 : firstY;
+	firstX = firstX <= 0 ? 0 : firstX;
 }
 
 void renderer::checkLasts(int &lastY, int &lastX){
@@ -97,10 +98,17 @@ void renderer::moveCenterDown(){
 }
 
 void renderer::moveCenterRight(){
+	renderCenterX -= renderCenterX <= -(worldCenterX -2) ? 0:1;	
+	/*	
+	renderCenterX -= 1;
 	renderCenterX -= renderCenterX - worldCenterX <= 0 ? 0 : 1;
+	*/
 }
 void renderer::moveCenterLeft(){
-	renderCenterX += renderCenterX + worldCenterX > sWidth - 1 ? 0 : 1;
+	/*	
+	renderCenterX += renderCenterX <= wWidth - 2 ? 0 : 1;	
+	*/
+	renderCenterX += renderCenterX < -(worldCenterX- 1) ? 0 : 1;
 }
 //k.
 
