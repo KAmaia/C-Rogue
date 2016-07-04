@@ -89,6 +89,7 @@ void initialize(){
 	nodelay(stdscr, TRUE);
 	noecho();
 	keypad(stdscr, TRUE);
+	curs_set(0);	
 	rndr = renderer();
 	wGen = worldgen(80, 100);
 	gameWorld = wGen.generateworld();
