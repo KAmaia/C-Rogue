@@ -14,11 +14,15 @@ void initialize();
 void handleInput(int);
 void updateDisplay();
 void drawWorld(vector<vector<char> >);
+void drawDebugInfo();
 void exit();
+
 
 //vars
 bool running = false;
 bool paused = true;
+bool debug = false;
+
 int ticks = 0;
 int ROWS, COLS;
 renderer rndr;
@@ -29,7 +33,6 @@ tileLoader tl;
 
 int main(){
 	initialize();
-	gameWorld.setTile(ROWS, 0, '-');
 	//gameloop
 	while(running == true){
 		if(paused){
@@ -67,6 +70,9 @@ void handleInput(int keyCode){
 		case KEY_RIGHT:
 			rndr.moveCenterRight();
 			break;
+		case 'd':
+			debug = !debug;
+			break;
 		default:
 			//do nothing;
 			break;	
@@ -77,30 +83,39 @@ void initialize(){
 	initscr();
 	getmaxyx(stdscr, ROWS, COLS);
 	//pre-adjust these
-	ROWS -=1;
-	COLS -=1;
+	ROWS;
+	COLS;
 	raw();
 	nodelay(stdscr, TRUE);
 	noecho();
 	keypad(stdscr, TRUE);
 	rndr = renderer();
-	wGen = worldgen(80,100);
+	wGen = worldgen(10, 10);
 	gameWorld = wGen.generateworld();
 	rndr.init(ROWS, COLS, gameWorld);
 	running = true;
 }
 
 void updateDisplay(){
+	clear();
 	//get a rendered frame;
 	vector<vector<char> >render = rndr.renderFrame(gameWorld);
-	drawWorld(render);
-	mvprintw(ROWS, 0,"%i", ticks); 
+	drawWorld(render);if(debug){
+		drawDebugInfo();
+	}
 	refresh();
+	
 }
 
+void drawDebugInfo(){
+	mvprintw(ROWS - 1, 0,"ticks: %i, worldHeight: %i, worldWidth: %i, CenterRenderY: %i, CenterRenderX: %i",
+				ticks, gameWorld.getHeight(), gameWorld.getWidth(), rndr.getCenterRenderY(), rndr.getCenterRenderX()); 
+	
+}	
+
 void drawWorld(vector<vector<char> > render){
-	for(int y = 0; y < ROWS; y++){
-		for(int x = 0; x < COLS; x++){
+	for(int y = 0; y < ROWS - 1; y++){
+		for(int x = 0; x < COLS -1; x++){
 			mvaddch(y,x,render[y][x]);
 		}
 	}

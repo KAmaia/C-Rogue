@@ -7,8 +7,6 @@
 
 using std::vector;
 
-int startX;
-int startY;
 
 
 void renderer::init(int ROWS, int COLS, world incWorld){
@@ -16,7 +14,8 @@ void renderer::init(int ROWS, int COLS, world incWorld){
 	sWidth = COLS;
 	wHeight = incWorld.getHeight();
 	wWidth = incWorld.getWidth();
-	setCenter();
+	setRenderCenter();
+	setWorldCenter();
 }
 
 vector<vector<char> > renderer::renderFrame(world incWorld){
@@ -31,16 +30,10 @@ vector<vector<char> > renderer::renderFrame(world incWorld){
 	int lastTileY;
 	int lastTileX;	
 	
-	setRenderCenterY(std::min(renderCenterY, 0));
-	setRenderCenterY(std::max(renderCenterY, sHeight - wHeight));
-
-	setRenderCenterX(std::min(renderCenterX, 0));
-	setRenderCenterX(std::max(renderCenterX, sWidth - wWidth));
-	
-	getOffSets(offSetY, offSetX);	
+	calculateOffSets(offSetY, offSetX);	
 	//using the offsets, set our first tile.
-	firstTileY = -renderCenterY;
-	firstTileX = -renderCenterX;
+	firstTileY = worldCenterY-renderCenterY;
+	firstTileX = worldCenterX-renderCenterX;
 	//make sure the first tile is within bounds.
 	checkFirsts(firstTileY, firstTileX);
 	//now that we know our first tiles, 
@@ -51,73 +44,66 @@ vector<vector<char> > renderer::renderFrame(world incWorld){
 	//make sure that the last tile stays within bounds.
 	checkLasts(lastTileY, lastTileX);
 	
-	for(int y = firstTileY; y < lastTileY; y++){
-		for(int x = firstTileX; x < lastTileX; x++){
-			renderedFrame[y + renderCenterY][x + renderCenterX] = incWorld.getTile(y,x).getChar();		
+	for(int y = firstTileY; y < lastTileY -1; y++){
+		for(int x = firstTileX; x < lastTileX -1; x++){
+			renderedFrame[y + offSetY][x + offSetX] = incWorld.getTile(y,x).getChar();		
 		}
 	}
 	return renderedFrame;
 }
 
-void renderer::initializeFrame(vector<vector<char> > &renderFrame){
-	renderFrame.resize(sHeight);
+void renderer::initializeFrame(vector<vector<char> > &renderedFrame){
+	renderedFrame.resize(sHeight);
 	for(int y = 0; y < sHeight; y++){
-		renderFrame[y].resize(sWidth, 'x');
+		renderedFrame[y].resize(sWidth, ' ');
 	}		
 }
 
-void renderer::checkLasts(int &lastY, int &lastX){
-	if(lastY >= wHeight){
-		lastY = wHeight -1;
-		renderCenterY = renderCenterY;
-	}
-	if(lastX > wWidth){
-		lastX = wWidth -1;
-		renderCenterX = renderCenterX;
-	}
+void renderer::setWorldCenter(){
+	worldCenterY = wHeight / 2;	
+	worldCenterX = wWidth / 2;
 }
+
+void renderer::checkLasts(int &lastY, int &lastX){
+	lastY = lastY >= wHeight ? wHeight : lastY;
+	lastX = lastX >= wWidth ? wWidth : lastX;
+} 
 
 void renderer::checkFirsts(int &firstY, int &firstX){
-	if(firstY < 0){
-		firstY = 0;
-		renderCenterY = renderCenterY;
-	}
-	if(firstX < 0){
-		firstX = 0;
-		renderCenterX = 0;
-	}
+	firstY = firstY < 0 ? 0 : firstY;
+	firstX = firstX < 0 ? 0 : firstX;
 }
 
-void renderer::getOffSets(int &offY, int &offX){
-	offY = sHeight / 2 - wHeight / 2;
-	offX = sWidth / 2 - wWidth / 2;	
+int renderer::getCenterRenderX(){
+	return renderCenterX;
 }
 
-void renderer::setRenderCenterY(int centerY){
-	renderCenterY = centerY;
+int renderer::getCenterRenderY(){
+	return renderCenterY;
 }
 
-void renderer::setRenderCenterX(int centerX){
-	renderCenterX = centerX;
+void renderer::calculateOffSets(int &offY, int &offX){
+	offY = renderCenterY - wHeight / 2;
+	offX = renderCenterX - wWidth / 2;	
 }
 
-void renderer::setCenter(){
-	renderCenterX = wWidth / 2;
-	renderCenterY = wHeight / 2;
+void renderer::setRenderCenter(){
+	renderCenterY = sHeight / 2;
+	renderCenterX = sWidth / 2;
 }
 
 void renderer::moveCenterUp(){
-	renderCenterY += 1;
+	renderCenterY += renderCenterY + worldCenterY >= sHeight - 1 ? 0 : 1;
 }
 void renderer::moveCenterDown(){
-	renderCenterY -= 1;
+	renderCenterY -= renderCenterY - worldCenterY <= 1 ? 0 : 1;
 }
 
 void renderer::moveCenterLeft(){
-	renderCenterX += 1;
+	renderCenterX += renderCenterX + worldCenterX > sWidth - 1 ? 0 : 1;
 }
 void renderer::moveCenterRight(){
-	renderCenterX -= 1;
+	renderCenterX -= renderCenterX - worldCenterX <= 0 ? 0 : 1;
 }
 
 
