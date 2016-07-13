@@ -13,8 +13,8 @@ TARGET := bin/exec
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g #-Wall
-LIB := -lcurses
+CFLAGS := -g -fsanitize=address #-Wall
+LIB := -lcurses -fsanitize=address
 INC := -I include
 
 $(TARGET): $(OBJECTS)

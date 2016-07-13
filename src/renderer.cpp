@@ -8,8 +8,6 @@
 
 using std::vector;
 
-
-
 void renderer::init(int ROWS, int COLS, world incWorld){
 	sHeight = ROWS;
 	sWidth = COLS;
@@ -98,19 +96,19 @@ void renderer::moveCenterDown(){
 }
 
 void renderer::moveCenterRight(){
-	renderCenterX -= renderCenterX <= -(worldCenterX -2) ? 0:1;	
-	/*	
-	renderCenterX -= 1;
-	renderCenterX -= renderCenterX - worldCenterX <= 0 ? 0 : 1;
-	*/
+	renderCenterX -= renderCenterX <= -(worldCenterX - 2) ? 0:1;	
 }
-void renderer::moveCenterLeft(){
-	/*	
-	renderCenterX += renderCenterX <= wWidth - 2 ? 0 : 1;	
-	*/
-	renderCenterX += renderCenterX < -(worldCenterX- 1) ? 0 : 1;
+void renderer::moveCenterLeft(){	
+	renderCenterX += renderCenterX + worldCenterX / 2 <= sWidth - 1  ? 1 : 0;
 }
 //k.
+
+int renderer::getOffSetX(){
+	return offSetX;
+}
+int renderer::getOffSetY(){
+	return offSetY;
+}
 
 int renderer::getCenterRenderX(){
 	return renderCenterX;

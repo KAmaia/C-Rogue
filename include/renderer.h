@@ -13,7 +13,9 @@ class renderer{
 		std::vector<std::vector<char> > renderFrame(world);	
 		int getCenterRenderX();
 		int getCenterRenderY();
-
+		int getOffSetX();
+		int getOffSetY();		
+		
 		void moveCenterUp();
 		void moveCenterDown();
 		void moveCenterLeft();

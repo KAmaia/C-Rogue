@@ -91,7 +91,7 @@ void initialize(){
 	keypad(stdscr, TRUE);
 	curs_set(0);	
 	rndr = renderer();
-	wGen = worldgen(10, 100);
+	wGen = worldgen(100, 100);
 	gameWorld = wGen.generateworld();
 	rndr.init(ROWS, COLS, gameWorld);
 	running = true;
@@ -113,8 +113,8 @@ void updateDisplay(){
 }
 
 void drawDebugInfo(){
-	mvprintw(ROWS - 1, 0,"ticks: %i, worldHeight: %i, worldWidth: %i, CenterRenderY: %i, CenterRenderX: %i",
-				ticks, gameWorld.getHeight(), gameWorld.getWidth(), rndr.getCenterRenderY(), rndr.getCenterRenderX()); 
+	mvprintw(ROWS - 1, 0,"ticks: %i, worldHeight: %i, worldWidth: %i, Screen Height: %i, Screen Width %i, CenterRenderY: %i, CenterRenderX: %i",
+				ticks, gameWorld.getHeight(), gameWorld.getWidth(),ROWS, COLS, rndr.getCenterRenderY(), rndr.getCenterRenderX()); 
 	
 }	
 
