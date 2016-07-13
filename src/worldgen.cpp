@@ -26,13 +26,25 @@ world worldgen::generateworld(){
 				continue;			
 			}
 			else if(y % 2 == 0){
-				gameWorld.setTile(y,x, tile('-'));
+				if(y == 0){
+					gameWorld.setTile(y,x,tile('T'));
+				}
+				else{
+					gameWorld.setTile(y,x, tile('-'));
+				}				
 				continue;
 			}
 			else if(x % 2 == 0){
-				gameWorld.setTile(y,x,tile('|'));
+				
+				if(x == 0){
+					gameWorld.setTile(y,x,tile('L'));
+				}
+				else{				
+					gameWorld.setTile(y,x,tile('|'));
+				}				
 				continue;
 			}
+			
 			else{
 				if((y < wHeight / 2) && (x < wWidth / 2)){
 					gameWorld.setTile(y,x,tile('1'));
@@ -47,6 +59,7 @@ world worldgen::generateworld(){
 					gameWorld.setTile(y, x, tile('4'));
 				}
 			}
+			
 		}
 	}
 	return gameWorld;
