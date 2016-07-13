@@ -28,11 +28,13 @@ vector<vector<char> > renderer::renderFrame(world incWorld){
 	int lastTileY;
 	int lastTileX;	
 	
+	
 	renderCenterY = std::min(renderCenterY, 0);
 	renderCenterY = std::max(renderCenterY, sHeight - wHeight);
 
 	renderCenterX = std::min(renderCenterX, 0);
 	renderCenterX = std::max(renderCenterX, sWidth - wWidth);
+	
 
 	calculateOffSets();	
 	//using the offsets, set our first tile.
@@ -43,13 +45,13 @@ vector<vector<char> > renderer::renderFrame(world incWorld){
 	//now that we know our first tiles, 
 	//we can add our screen width and height to figure out
 	//what the last tile to render is.
-	lastTileY = firstTileY + sHeight;
-	lastTileX = firstTileX + sWidth;
+	lastTileY = firstTileY + sHeight + 1;
+	lastTileX = firstTileX + sWidth + 1;
 	//make sure that the last tile stays within bounds.
 	checkLasts( lastTileY, lastTileX );
 	
-	for(int y = firstTileY; y < lastTileY; y++){
-		for(int x = firstTileX; x < lastTileX; x++){
+	for(int y = firstTileY; y < lastTileY - 1; y++){
+		for(int x = firstTileX; x < lastTileX - 1; x++){
 			char c = incWorld.getTile(y,x).getChar();
 			renderedFrame[y + renderCenterY][x + renderCenterX] = c;		
 		}
@@ -82,8 +84,8 @@ void renderer::checkFirsts(int &firstY, int &firstX){
 }
 
 void renderer::checkLasts(int &lastY, int &lastX){
-	lastY = lastY >= wHeight ? wHeight : lastY;
-	lastX = lastX >= wWidth ? wWidth : lastX;
+	lastY = lastY >= wHeight ? wHeight -1 : lastY;
+	lastX = lastX >= wWidth ? wWidth  -1 : lastX;
 } 
 //k.
 
@@ -102,11 +104,11 @@ void renderer::moveCenterUp(){
 	renderCenterY += renderCenterY <= 1 ? 1 : 0;
 }
 
-void renderer::moveCenterLeft(){
-	renderCenterX += renderCenterX <= 1 ? 1:0;	
+void renderer::moveCenterRight(){
+	renderCenterX += renderCenterX >= 1 ? 0:1;	
 }
-void renderer::moveCenterRight(){	
-	renderCenterX -= renderCenterX >= 1 ? 0 : 1;
+void renderer::moveCenterLeft(){	
+	renderCenterX -= renderCenterX <= 1 ? 1 : 0;
 }
 //k.
 
